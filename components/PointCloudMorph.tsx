@@ -346,19 +346,39 @@ export default function PointCloudMorph({
 
   if (isLoading) {
     return (
-      <mesh>
-        <boxGeometry args={[0.1, 0.1, 0.1]} />
-        <meshBasicMaterial color="orange" />
-      </mesh>
+      <group>
+        <mesh position={[0, 0, 0]}>
+          <boxGeometry args={[0.2, 0.2, 0.2]} />
+          <meshBasicMaterial color="orange" />
+        </mesh>
+        <mesh position={[-3, 0, 0]}>
+          <boxGeometry args={[0.1, 0.1, 0.1]} />
+          <meshBasicMaterial color="cyan" />
+        </mesh>
+        <mesh position={[3, 0, 0]}>
+          <boxGeometry args={[0.1, 0.1, 0.1]} />
+          <meshBasicMaterial color="magenta" />
+        </mesh>
+      </group>
     )
   }
 
   if (error) {
     return (
-      <mesh>
-        <boxGeometry args={[1, 0.1, 0.1]} />
-        <meshBasicMaterial color="red" />
-      </mesh>
+      <group>
+        <mesh position={[0, 0, 0]}>
+          <boxGeometry args={[0.5, 0.5, 0.5]} />
+          <meshBasicMaterial color="red" />
+        </mesh>
+        <mesh position={[-3, 0, 0]}>
+          <boxGeometry args={[0.1, 0.1, 0.1]} />
+          <meshBasicMaterial color="cyan" />
+        </mesh>
+        <mesh position={[3, 0, 0]}>
+          <boxGeometry args={[0.1, 0.1, 0.1]} />
+          <meshBasicMaterial color="magenta" />
+        </mesh>
+      </group>
     )
   }
 
@@ -372,9 +392,36 @@ export default function PointCloudMorph({
   }
 
   const pointCount = geometryRef.current.getAttribute('position').count
-  if (pointCount > 0) {
-    console.log('レンダリング:', { pointCount, morphProgress })
+  
+  if (pointCount === 0) {
+    console.warn('警告: 点が0個です')
+    // テスト用の点を追加
+    const testGeometry = new THREE.BufferGeometry()
+    const testPositions: number[] = []
+    const testColors: number[] = []
+    for (let i = 0; i < 100; i++) {
+      testPositions.push(
+        (Math.random() - 0.5) * 6 - 3,
+        (Math.random() - 0.5) * 2,
+        (Math.random() - 0.5) * 2
+      )
+      testColors.push(Math.random(), Math.random(), Math.random())
+    }
+    testGeometry.setAttribute('position', new THREE.Float32BufferAttribute(testPositions, 3))
+    testGeometry.setAttribute('color', new THREE.Float32BufferAttribute(testColors, 3))
+    
+    return (
+      <points geometry={testGeometry}>
+        <pointsMaterial
+          vertexColors
+          size={pointSize * 2}
+          sizeAttenuation={true}
+        />
+      </points>
+    )
   }
+
+  console.log('レンダリング:', { pointCount, morphProgress })
 
   return (
     <points ref={pointsRef} geometry={geometryRef.current}>

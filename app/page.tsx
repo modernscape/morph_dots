@@ -24,8 +24,8 @@ export default function Home() {
           <PointCloudMorph
             model1Path="/models/model1.glb"
             model2Path="/models/model2.glb"
-            pointSize={0.05}
-            pointDensity={1.0}
+            pointSize={0.1}
+            pointDensity={2.0}
             morphProgress={morphProgress}
             model1Position={[-3, 0, 0]}
             model2Position={[3, 0, 0]}
@@ -52,14 +52,18 @@ export default function Home() {
           top: '20px',
           left: '20px',
           zIndex: 10,
-          background: 'rgba(0, 0, 0, 0.7)',
+          background: 'rgba(0, 0, 0, 0.8)',
           padding: '20px',
           borderRadius: '10px',
           color: 'white',
           fontFamily: 'system-ui, sans-serif',
+          maxWidth: '300px',
         }}
       >
-        <h2 style={{ marginTop: 0, marginBottom: '15px' }}>Point Cloud Morph</h2>
+        <h2 style={{ marginTop: 0, marginBottom: '15px', fontSize: '18px' }}>Point Cloud Morph</h2>
+        <p style={{ fontSize: '12px', opacity: 0.8, marginBottom: '15px' }}>
+          GLBモデルの点群を表示し、2つのモデル間でモーフィングします
+        </p>
         <div style={{ marginBottom: '15px' }}>
           <label style={{ display: 'block', marginBottom: '8px' }}>
             Morph Progress: {(morphProgress * 100).toFixed(0)}%
