@@ -7,6 +7,11 @@ import OrbitControlsWrapper from '@/components/OrbitControlsWrapper'
 
 export default function Home() {
   const [morphProgress, setMorphProgress] = useState(0)
+  
+  // basePathを取得（GitHub Pages用）
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+  const model1Path = `${basePath}/models/model1.glb`
+  const model2Path = `${basePath}/models/model2.glb`
 
   return (
     <main style={{ width: '100vw', height: '100vh' }}>
@@ -22,8 +27,8 @@ export default function Home() {
           <directionalLight position={[10, 10, 5]} intensity={1} />
           <directionalLight position={[-10, -10, -5]} intensity={0.3} />
           <PointCloudMorph
-            model1Path="/models/model1.glb"
-            model2Path="/models/model2.glb"
+            model1Path={model1Path}
+            model2Path={model2Path}
             pointSize={0.1}
             pointDensity={2.0}
             morphProgress={morphProgress}
